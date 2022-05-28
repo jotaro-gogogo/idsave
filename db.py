@@ -33,14 +33,16 @@ def open_file():
     side_note.place(relx=.47, rely=.72, anchor="e")
     cat.place(relx=.53, rely=.72, anchor="w")
 
+    dir_path = open('dir.txt', 'r')
     path = root.filename = filedialog.askopenfilename(
-        initialdir="/home/",
+        initialdir=dir_path.readline(),
         filetypes=(
             ("All files", "*.*"),
             ("JPG Files", "*.jpg"),
             ("PNG Files", "*.png")
         )
     )
+    dir_path.close()
 
     my_img = Image.open(root.filename)
     img_thumb = copy.copy(my_img)
