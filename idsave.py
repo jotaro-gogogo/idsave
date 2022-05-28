@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """This projects aims to build a little, personal DB that I'm going to use
 with the development of a game, it is going to help me add images and annotate
 ideas within them, or just plain ideas without an image, because MS Word can get tedious at
