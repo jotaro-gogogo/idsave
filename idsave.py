@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.9
 
 """This projects aims to build a little, personal DB that I'm going to use
 with the development of a game, it is going to help me add images and annotate
@@ -17,7 +17,7 @@ times."""
 # radio_var.get()
 # radio_button = Radiobutton(root, text="Categoria X", variable=radio_var,
 # value="categoriax").pack()
-
+import tkinter
 from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image  # Para mostrar otros formatos de imagen
@@ -67,6 +67,7 @@ def save():
     func_conn.commit()
     c.close()
     func_conn.close()
+
     restore()
 
 
@@ -79,6 +80,8 @@ def to_binary():
 
 # To clear the window and bring button back to its original place
 def restore():
+    radio_var.set(None)
+    side_note.delete('1.0', END)
     frame_lbl.place_forget()
     img_frame.place_forget()
     cat.place_forget()
