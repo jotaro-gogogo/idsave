@@ -123,7 +123,6 @@ root.geometry(f"{window_w}x{window_h}+{int(x)}+{int(y)}")
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 root.resizable(0, 0)
-# root.iconbitmap("@icon.xbm")
 root.configure(bg=bGround)
 
 img_frame = LabelFrame(root, text="Image", height=250, width=250)
