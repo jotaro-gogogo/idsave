@@ -31,7 +31,8 @@ def open_file():
     global new_img
     button.configure(text="Save", command=lambda: save())
     button.place(rely=.92)
-    img_frame.place(relx=.5, rely=.3, anchor="c")
+    back_btn.place(relx=.11, rely=0.04, anchor="c")
+    img_frame.place(relx=.5, rely=.33, anchor="c")
     side_note.place(relx=.47, rely=.72, anchor="e")
     cat.place(relx=.53, rely=.72, anchor="w")
 
@@ -94,7 +95,7 @@ bGround = "#2A2D37"
 hlbGround = "#4B5062"
 wbGround = "#FFFFFF"
 gbGround = "#555A5B"
-MAX_SIZE = (235, 215)
+MAX_SIZE = (265, 245)
 categories = {
     "Clothing": "clothing",
     "Footwear": "footwear",
@@ -111,8 +112,8 @@ root = Tk()
 root.title("IdSave")
 
 # From here we start to declare variables
-window_w = 350  # 'w' for width and 'h' for height
-window_h = 500
+window_w = 550  # 'w' for width and 'h' for height
+window_h = 600
 screen_w = root.winfo_screenwidth()
 screen_h = root.winfo_screenheight()
 x = (screen_w / 2) - (window_w / 2)  # If we don't take out WxH of the window it would be off center
@@ -125,7 +126,8 @@ root.columnconfigure(0, weight=1)
 root.resizable(0, 0)
 root.configure(bg=bGround)
 
-img_frame = LabelFrame(root, text="Image", height=250, width=250)
+back_btn = Button(root, text="< Back  ", padx=20, command=lambda: root.tkraise())
+img_frame = LabelFrame(root, text="Image", height=280, width=280)
 frame_lbl = Label(img_frame)
 side_note = Text(root, width=17, height=8, padx=5)
 button = Button(root, text="Add an idea!", padx=40, command=open_file)
