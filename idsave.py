@@ -92,7 +92,7 @@ def restore():
     button.place(relx=.5, rely=.5, anchor="c")
 
 
-bGround = "#2A2D37"
+bGround = "#2A2Dff"
 hlbGround = "#4B5062"
 wbGround = "#FFFFFF"
 gbGround = "#555A5B"
