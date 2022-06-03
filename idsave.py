@@ -87,6 +87,7 @@ def restore():
     img_frame.place_forget()
     cat.place_forget()
     side_note.place_forget()
+    back_btn.place_forget()
     button.configure(text="Add an idea!", command=open_file)
     button.place(relx=.5, rely=.5, anchor="c")
 
@@ -126,7 +127,7 @@ root.columnconfigure(0, weight=1)
 root.resizable(0, 0)
 root.configure(bg=bGround)
 
-back_btn = Button(root, text="< Back  ", padx=20, command=lambda: root.tkraise())
+back_btn = Button(root, text="< Back  ", padx=20, command=restore)
 img_frame = LabelFrame(root, text="Image", height=280, width=280)
 frame_lbl = Label(img_frame)
 side_note = Text(root, width=17, height=8, padx=5)
