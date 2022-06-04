@@ -103,9 +103,11 @@ categories = {
     "Hairstyle": "hairstyle",
     "Weapons": "weapons",
     "Actions": "actions",
+    "Art & Deco": "art-deco",
     "Car Model": "cars",
     "Car Wrap": "car-skin",
-    "Vehicle Parts": "vehicle-parts"
+    "Vehicle Parts": "vehicle-parts",
+    "Other": "other"
 }
 
 # Window creation
@@ -130,32 +132,53 @@ root.configure(bg=bGround)
 back_btn = Button(root, text="< Back  ", padx=20, command=restore)
 img_frame = LabelFrame(root, text="Image", height=280, width=280)
 frame_lbl = Label(img_frame)
-side_note = Text(root, width=17, height=8, padx=5)
+side_note = Text(root, width=23, height=8, padx=8, pady=5)
 button = Button(root, text="Add an idea!", padx=40, command=open_file)
 button.place(relx=.5, rely=.5, anchor="c")
 
 # Frame for the categories
-cat = Frame(root, width=150, height=150, bg=bGround)
+cat = Frame(root, width=210, height=150, bg=bGround)
 # End of window creation ---------------------
 
 # To create buttons with the categories dictionary
 radio_var = StringVar()
-yy = 0
+yy1 = 0
+yy2 = 0
+xx = 0
+cont = 0
 for (key, value) in categories.items():
-    Radiobutton(
-        cat,
-        text=key,
-        bg=bGround,
-        activebackground=hlbGround,
-        activeforeground=wbGround,
-        highlightthickness=0,
-        selectcolor=gbGround,
-        fg=wbGround,
-        borderwidth=0,
-        variable=radio_var,
-        value=value
-    ).place(relx=0, rely=yy)
-    yy += .125
+    if cont < (len(categories)/2):
+        Radiobutton(
+            cat,
+            text=key,
+            bg=bGround,
+            activebackground=hlbGround,
+            activeforeground=wbGround,
+            highlightthickness=0,
+            selectcolor=gbGround,
+            fg=wbGround,
+            borderwidth=0,
+            variable=radio_var,
+            value=value
+        ).place(relx=xx, rely=yy1)
+        yy1 += .18
+        cont += 1
+    else:
+        xx = .45
+        Radiobutton(
+            cat,
+            text=key,
+            bg=bGround,
+            activebackground=hlbGround,
+            activeforeground=wbGround,
+            highlightthickness=0,
+            selectcolor=gbGround,
+            fg=wbGround,
+            borderwidth=0,
+            variable=radio_var,
+            value=value
+        ).place(relx=xx, rely=yy2)
+        yy2 += .18
 # End of radio buttons creation
 
 # Database creation
@@ -177,8 +200,6 @@ conn.close()
 
 insert = """ INSERT INTO ideas (image, side_note, category) VALUES (?, ?, ?) """
 # End of database ----------------------------
-
-
 
 # Always at the end
 root.mainloop()
