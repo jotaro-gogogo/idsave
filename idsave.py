@@ -36,22 +36,22 @@ def open_file():
     side_note.place(relx=.47, rely=.72, anchor="e")
     cat.place(relx=.53, rely=.72, anchor="w")
 
-    dir_path = open('dir.txt', 'r')
-    path = root.filename = filedialog.askopenfilename(
-        initialdir=dir_path.readline(),
-        filetypes=(
-            ("All files", "*.*"),
-            ("JPG Files", "*.jpg"),
-            ("PNG Files", "*.png")
-        )
-    )
-    dir_path.close()
+    # dir_path = open('dir.txt', 'r')
+    # path = root.filename = filedialog.askopenfilename(
+    #     initialdir=dir_path.readline(),
+    #     filetypes=(
+    #         ("All files", "*.*"),
+    #         ("JPG Files", "*.jpg"),
+    #         ("PNG Files", "*.png")
+    #     )
+    # )
+    # dir_path.close()
 
-    my_img = Image.open(root.filename)
-    img_thumb = copy.copy(my_img)
-    img_thumb.thumbnail(MAX_SIZE)
-    new_img = ImageTk.PhotoImage(img_thumb)
-    frame_lbl.configure(image=new_img)
+    # my_img = Image.open(root.filename)
+    # img_thumb = copy.copy(my_img)
+    # img_thumb.thumbnail(MAX_SIZE)
+    # new_img = ImageTk.PhotoImage(img_thumb)
+    # frame_lbl.configure(image=new_img)
     frame_lbl.place(relx=.5, rely=.5, anchor="c")
 
 
@@ -135,7 +135,7 @@ img_frame = LabelFrame(root, text="Image", height=280, width=280)
 frame_lbl = Label(img_frame)
 side_note = Text(root, width=23, height=8, padx=8, pady=5)
 button = Button(root, text="Add an idea!", padx=40, command=open_file)
-button.place(relx=.5, rely=.5, anchor="c")
+# button.place(relx=.5, rely=.5, anchor="c")
 
 # Frame for the categories
 cat = Frame(root, width=210, height=150, bg=bGround)
@@ -203,4 +203,5 @@ insert = """ INSERT INTO ideas (image, side_note, category) VALUES (?, ?, ?) """
 # End of database ----------------------------
 
 # Always at the end
+open_file()
 root.mainloop()
