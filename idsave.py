@@ -107,6 +107,7 @@ categories = {
     "Car Model": "cars",
     "Car Wrap": "car-skin",
     "Vehicle Parts": "vehicle-parts",
+    "Reference": "reference",
     "Other": "other"
 }
 
