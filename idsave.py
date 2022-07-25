@@ -49,13 +49,14 @@ def open_img():
     )
 
     my_img = Image.open(path)
-    my_img.thumbnail(MAX_SIZE)  # Resized image to max dimensions of 720x720
+    if my_img.width > 720 or my_img.height > 720:
+        my_img.thumbnail(MAX_SIZE)  # Resized image to max dimensions of 720x720
     my_img.save(path)
     return my_img
 
 
 def save():
-    # Will save: image, side note & category into db with SQL
+    # Will save: image in base64, side note, category and a zero (for "done" attribute) into db
     db_img_str = to_base64()
     db_note = side_note.get(1.0, "end-1c")
     db_cat = radio_var.get()
@@ -71,12 +72,11 @@ def save():
     restore()
 
 
-# Converts choosed image into a binary object in order to save it into db
-#def to_base64():
-    #with open(path, 'rb') as file:
-    #    blob_data = file.read()
-    #return blob_data
-    #img_string = base64.encode(my_img)
+# Converts choosed image into base64 to save it as string into db
+def to_base64():
+    with open(path, 'rb') as file:
+        img_encoded = base64.b64encode(file.read())
+    return img_encoded.decode('UTF-8')  # Removes the first letter 'b'
 
 
 # To clear the window and bring button back to its original place
