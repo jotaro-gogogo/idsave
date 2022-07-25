@@ -72,7 +72,7 @@ def to_binary():
 
 # To clear the window and bring button back to its original place
 def restore():
-    radio_var.set("")
+    radio_var.set(" ")
     side_note.delete('1.0', END)
     frame_lbl.place_forget()
     img_frame.place_forget()
@@ -133,7 +133,7 @@ cat = Frame(root, width=210, height=150, bg=bGround)
 # End of window creation ---------------------
 
 # To create buttons with the categories dictionary
-radio_var = StringVar()
+radio_var = StringVar(value=" ")
 yy1 = 0
 yy2 = 0
 xx = 0
