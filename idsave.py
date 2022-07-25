@@ -10,7 +10,7 @@ times."""
 #  image (maybe also store it into another variable) and text box value and store them into the
 #  database, rendering my app finished <3
 #  Or so I believe...
-
+import base64
 from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image  # Para mostrar otros formatos de imagen
@@ -20,7 +20,6 @@ import copy
 
 # Function to choose the image
 def open_file():
-    global path
     global new_img
     button.configure(text="Save", command=lambda: save())
     button.place(rely=.92)
@@ -29,7 +28,18 @@ def open_file():
     side_note.place(relx=.47, rely=.72, anchor="e")
     cat.place(relx=.53, rely=.72, anchor="w")
 
-    path = root.filename = filedialog.askopenfilename(
+    img_thumb = copy.copy(open_img())  # Making a copy so that returned image isn't made smaller
+    img_thumb.thumbnail(DISPLAY_SIZE)
+    new_img = ImageTk.PhotoImage(img_thumb)
+    frame_lbl.configure(image=new_img)
+    frame_lbl.place(relx=.5, rely=.5, anchor="center")
+
+
+def open_img():
+    global path
+    global my_img
+
+    path = filedialog.askopenfilename(
         initialdir=r"/home/misato/Imágenes",
         filetypes=(
             ("All files", "*.*"),
@@ -38,24 +48,21 @@ def open_file():
         )
     )
 
-    my_img = Image.open(root.filename)
-    my_img.thumbnail(MAX_SIZE)  # Resized to image with max dimensions of 720x720
-    img_thumb = copy.copy(my_img)  # Making a copy so that the previous image isn't made smaller
-    img_thumb.thumbnail(DISPLAY_SIZE)
-    new_img = ImageTk.PhotoImage(img_thumb)
-    frame_lbl.configure(image=new_img)
-    frame_lbl.place(relx=.5, rely=.5, anchor="center")
+    my_img = Image.open(path)
+    my_img.thumbnail(MAX_SIZE)  # Resized image to max dimensions of 720x720
+    my_img.save(path)
+    return my_img
 
 
 def save():
     # Will save: image, side note & category into db with SQL
-    db_img = to_binary()
+    db_img_str = to_base64()
     db_note = side_note.get(1.0, "end-1c")
     db_cat = radio_var.get()
 
     func_conn = sqlite3.connect('ideas.db')
     c = func_conn.cursor()
-    data_tuple = (db_img, db_note, db_cat)
+    data_tuple = (db_img_str, db_note, db_cat, 0)
     c.execute(insert, data_tuple)
     func_conn.commit()
     c.close()
@@ -65,10 +72,11 @@ def save():
 
 
 # Converts choosed image into a binary object in order to save it into db
-def to_binary():
-    with open(path, 'rb') as file:
-        blob_data = file.read()
-    return blob_data
+#def to_base64():
+    #with open(path, 'rb') as file:
+    #    blob_data = file.read()
+    #return blob_data
+    #img_string = base64.encode(my_img)
 
 
 # To clear the window and bring button back to its original place
@@ -182,17 +190,19 @@ cursor = conn.cursor()
 cursor.execute(
     """CREATE TABLE IF NOT EXISTS ideas (
         [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-        [image] BLOB,
+        [image_base64] TEXT,
         [side_note] TEXT,
-        [category] VARCHAR(250)
+        [category] TEXT,
+        [done] INTEGER
     )"""
 )
+# "done" to be treated as boolean
 
 conn.commit()
 cursor.close()
 conn.close()
 
-insert = """ INSERT INTO ideas (image, side_note, category) VALUES (?, ?, ?) """
+insert = """ INSERT INTO ideas (image_base64, side_note, category, done) VALUES (?, ?, ?, ?) """
 # End of database ----------------------------
 
 # Always at the end
