@@ -30,7 +30,7 @@ def open_file():
     cat.place(relx=.53, rely=.72, anchor="w")
 
     path = root.filename = filedialog.askopenfilename(
-        initialdir="/home/misato/Imágenes",
+        initialdir=r"/home/misato/Imágenes",
         filetypes=(
             ("All files", "*.*"),
             ("JPG Files", "*.jpg"),
@@ -39,8 +39,9 @@ def open_file():
     )
 
     my_img = Image.open(root.filename)
-    img_thumb = copy.copy(my_img)
-    img_thumb.thumbnail(MAX_SIZE)
+    my_img.thumbnail(MAX_SIZE)  # Resized to image with max dimensions of 720x720
+    img_thumb = copy.copy(my_img)  # Making a copy so that the previous image isn't made smaller
+    img_thumb.thumbnail(DISPLAY_SIZE)
     new_img = ImageTk.PhotoImage(img_thumb)
     frame_lbl.configure(image=new_img)
     frame_lbl.place(relx=.5, rely=.5, anchor="center")
@@ -87,7 +88,8 @@ bGround = "#2A2D37"
 hlbGround = "#4B5062"
 wbGround = "#FFFFFF"
 gbGround = "#555A5B"
-MAX_SIZE = (265, 245)
+DISPLAY_SIZE = (265, 245)
+MAX_SIZE = (720, 720)
 categories = {
     "Clothing": "clothing",
     "Footwear": "footwear",
