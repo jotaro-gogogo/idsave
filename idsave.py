@@ -11,13 +11,6 @@ times."""
 #  database, rendering my app finished <3
 #  Or so I believe...
 
-# Should I use radio buttons to select the category of image??? Maybe, yes.
-#
-# radio_var = strVar()
-# radio_var.get()
-# radio_button = Radiobutton(root, text="Categoria X", variable=radio_var,
-# value="categoriax").pack()
-import tkinter
 from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image  # Para mostrar otros formatos de imagen
@@ -31,28 +24,26 @@ def open_file():
     global new_img
     button.configure(text="Save", command=lambda: save())
     button.place(rely=.92)
-    back_btn.place(relx=.11, rely=0.04, anchor="c")
-    img_frame.place(relx=.5, rely=.33, anchor="c")
+    back_btn.place(relx=.11, rely=0.04, anchor="center")
+    img_frame.place(relx=.5, rely=.33, anchor="center")
     side_note.place(relx=.47, rely=.72, anchor="e")
     cat.place(relx=.53, rely=.72, anchor="w")
 
-    dir_path = open('dir.txt', 'r')
     path = root.filename = filedialog.askopenfilename(
-        initialdir=dir_path.readline(),
+        initialdir="/home/misato/Imágenes",
         filetypes=(
             ("All files", "*.*"),
             ("JPG Files", "*.jpg"),
             ("PNG Files", "*.png")
         )
     )
-    dir_path.close()
 
     my_img = Image.open(root.filename)
     img_thumb = copy.copy(my_img)
     img_thumb.thumbnail(MAX_SIZE)
     new_img = ImageTk.PhotoImage(img_thumb)
     frame_lbl.configure(image=new_img)
-    frame_lbl.place(relx=.5, rely=.5, anchor="c")
+    frame_lbl.place(relx=.5, rely=.5, anchor="center")
 
 
 def save():
@@ -81,7 +72,7 @@ def to_binary():
 
 # To clear the window and bring button back to its original place
 def restore():
-    radio_var.set(None)
+    radio_var.set("")
     side_note.delete('1.0', END)
     frame_lbl.place_forget()
     img_frame.place_forget()
@@ -89,7 +80,7 @@ def restore():
     side_note.place_forget()
     back_btn.place_forget()
     button.configure(text="Add an idea!", command=open_file)
-    button.place(relx=.5, rely=.5, anchor="c")
+    button.place(relx=.5, rely=.5, anchor="center")
 
 
 bGround = "#2A2D37"
@@ -127,7 +118,7 @@ root.geometry(f"{window_w}x{window_h}+{int(x)}+{int(y)}")
 
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
-root.resizable(0, 0)
+root.resizable(False, False)
 root.configure(bg=bGround)
 
 back_btn = Button(root, text="< Back  ", padx=20, command=restore)
@@ -135,7 +126,7 @@ img_frame = LabelFrame(root, text="Image", height=280, width=280)
 frame_lbl = Label(img_frame)
 side_note = Text(root, width=23, height=8, padx=8, pady=5)
 button = Button(root, text="Add an idea!", padx=40, command=open_file)
-button.place(relx=.5, rely=.5, anchor="c")
+button.place(relx=.5, rely=.5, anchor="center")
 
 # Frame for the categories
 cat = Frame(root, width=210, height=150, bg=bGround)
