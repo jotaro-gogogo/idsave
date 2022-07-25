@@ -10,12 +10,14 @@ times."""
 #  image (maybe also store it into another variable) and text box value and store them into the
 #  database, rendering my app finished <3
 #  Or so I believe...
-import base64
+
 from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image  # Para mostrar otros formatos de imagen
 import sqlite3
 import copy
+import base64
+import csv
 
 
 # Function to choose the image
@@ -61,13 +63,13 @@ def save():
     db_note = side_note.get(1.0, "end-1c")
     db_cat = radio_var.get()
 
-    func_conn = sqlite3.connect('ideas.db')
-    c = func_conn.cursor()
+    save_conn = sqlite3.connect('ideas.db')
+    c = save_conn.cursor()
     data_tuple = (db_img_str, db_note, db_cat, 0)
     c.execute(insert, data_tuple)
-    func_conn.commit()
+    save_conn.commit()
     c.close()
-    func_conn.close()
+    save_conn.close()
 
     restore()
 
@@ -90,6 +92,22 @@ def restore():
     back_btn.place_forget()
     button.configure(text="Add an idea!", command=open_file)
     button.place(relx=.5, rely=.5, anchor="center")
+
+
+def on_closing():
+    close_conn = sqlite3.connect('ideas.db')
+    c = close_conn.cursor()
+    ideas = c.execute("SELECT * FROM ideas")
+
+    with open("/home/misato/Dropbox/ideas.csv", "w", newline='') as f:
+        file = csv.writer(f)
+        file.writerow(['id', 'image_base64', 'side_note', 'category', 'done'])
+        file.writerows(ideas)
+
+    close_conn.commit()
+    c.close()
+    close_conn.close()
+    root.destroy()
 
 
 bGround = "#2A2D37"
@@ -205,5 +223,7 @@ conn.close()
 insert = """ INSERT INTO ideas (image_base64, side_note, category, done) VALUES (?, ?, ?, ?) """
 # End of database ----------------------------
 
+root.protocol("WM_DELETE_WINDOW", on_closing)
 # Always at the end
 root.mainloop()
+
