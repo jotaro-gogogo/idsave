@@ -18,6 +18,7 @@ import sqlite3
 import copy
 import base64
 import csv
+import os, sys
 
 
 # Function to choose the image
@@ -42,18 +43,21 @@ def open_img():
     global my_img
 
     path = filedialog.askopenfilename(
-        initialdir=r"/home/misato/Imágenes",
+        initialdir=r"/home/misato/Imágenes/IdSave",
         filetypes=(
             ("All files", "*.*"),
             ("JPG Files", "*.jpg"),
             ("PNG Files", "*.png")
         )
     )
-
     my_img = Image.open(path)
-    if my_img.width > 720 or my_img.height > 720:
-        my_img.thumbnail(MAX_SIZE)  # Resized image to max dimensions of 720x720
-    my_img.save(path)
+
+    if my_img.width > 720 or my_img.height > 720:  # Resize image to max dimensions of 720x720
+        my_img.thumbnail(MAX_SIZE)
+    if path[-3:].lower() == 'png':  # if not JPG: turn into, save it and finally remove png version
+        my_img = my_img.convert("RGB")
+        my_img.save(path[:-4] + ".jpg")
+        os.remove(path)
     return my_img
 
 
